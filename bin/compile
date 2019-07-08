@@ -1,19 +1,4 @@
 #!/bin/sh
 
-apt-get update && \
-  apt-get install -y apt-transport-https curl
-
 apt-get update
-
-# Install Cypress dependencies (separate commands to avoid time outs)
-apt-get install -y \
-    libgtk2.0-0
-apt-get install -y \
-    libnotify-dev
-apt-get install -y \
-    libgconf-2-4 \
-    libnss3 \
-    libxss1
-apt-get install -y \
-    libasound2 \
-    xvfb
+apt-get install libxtst6 libgconf-2-4 libnss3 libasound2
