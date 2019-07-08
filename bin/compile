@@ -1,26 +1,9 @@
 #!/bin/sh
 
-set -e
+apt-get update
+apt-get -y install xvfb gtk2-engines-pixbuf
+apt-get -y install xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable
 
-BUILD_DIR=$1
-CACHE_DIR=$2
-
-# config
-# http://orm-buildpack.s3.amazonaws.com/Xvfb.tar.gz
-
-# Buildpack URL
-FILE_NAME=xvfb.tar.bz2
-BUILDPACK_XVFB_PACKAGE=https://s3.amazonaws.com/heroku.buildpacks/${FILE_NAME}
-
-mkdir -p $CACHE_DIR
-if ! [ -e $CACHE_DIR/$FILE_NAME ]; then
-  echo "-----> Fetching XVFB binaries at ${BUILDPACK_XVFB_PACKAGE}"
-  curl $BUILDPACK_XVFB_PACKAGE -s -o $CACHE_DIR/$FILE_NAME
-fi
-
-echo "-----> Extracting XVFB binaries to ${BUILD_DIR}/vendor/xvfb"
-mkdir -p $CACHE_DIR/$ARCHIVE_NAME
-mkdir -p $BUILD_DIR/vendor
-tar jxf $CACHE_DIR/$FILE_NAME -C $CACHE_DIR
-mv $CACHE_DIR/$ARCHIVE_NAME $BUILD_DIR/vendor/xvfb
-apt-get install xvfb -y
+echo "Starting X virtual framebuffer (Xvfb) in background..."
+Xvfb -ac :99 -screen 0 1280x1024x16 &
+export DISPLAY=:99
